@@ -1,0 +1,3 @@
+# Never copy secrets into the image
+.env
+env_key.json
