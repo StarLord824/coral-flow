@@ -142,7 +142,7 @@ Antigravity's own chatbot advised that setting `GEMINI_API_KEY` makes agy skip O
 (the standard Google CI/CD pattern). We tested it empirically with a REAL key:
 
 ```
-GEMINI_API_KEY = AIzaSy…9D30 (len 39)   ← correct AI-Studio format
+GEMINI_API_KEY = AIza…<redacted> (len 39)   ← correct AI-Studio format
 → agy -p "Reply with PONG"
 → "Authentication required. Please visit the URL to log in: https://accounts.google.com/..."
 → Error: authentication timed out.
