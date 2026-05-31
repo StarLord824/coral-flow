@@ -18,7 +18,6 @@ import {
 
 import Sidebar from '@/components/Sidebar'
 import ChatPanel from '@/components/ChatPanel'
-import TerminalPanel from '@/components/TerminalPanel'
 import ConnectSourceModal from '@/components/ConnectSourceModal'
 import SourceNode, { type SourceNodeData } from '@/components/nodes/SourceNode'
 import AgentNode, { type AgentNodeData } from '@/components/nodes/AgentNode'
@@ -209,12 +208,7 @@ function DashboardInner() {
               </ReactFlow>
             </div>
 
-            <TerminalPanel
-              sandboxId={agent?.sandbox_id ?? 'no sandbox yet'}
-              sandboxState={agent?.sandbox_state ?? 'cold'}
-              collapsed={terminalCollapsed}
-              onToggleCollapse={() => setTerminalCollapsed(c => !c)}
-            />
+
           </div>
 
           <div className="w-[320px] flex-shrink-0 flex flex-col">

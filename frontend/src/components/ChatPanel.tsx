@@ -261,6 +261,15 @@ export default function ChatPanel() {
               setMessages(prev => prev.map(m => m.id === msgId ? { ...m, evidence: parsed.evidence } : m))
             }
           } catch {}
+        } else if (chunk.event === 'error') {
+          let errMsg = chunk.data
+          let code = 500
+          try {
+            const parsed = JSON.parse(chunk.data)
+            errMsg = parsed.message || errMsg
+            code = parsed.code || code
+          } catch {}
+          throw new ApiError(errMsg, code)
         }
       }
     } catch (e) {
