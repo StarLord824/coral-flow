@@ -172,7 +172,7 @@ def _is_quota(text: str) -> bool:
 def run_agent(sbx: Sandbox, prompt: str) -> str:
     """Run one opencode investigation, timeout-wrapped, with quota detection."""
     s = get_settings()
-    cmd = f"opencode run --model {s.agent_model} {json.dumps(prompt)}"
+    cmd = f"opencode run --model {s.agent_model} {json.dumps(prompt)} 2>&1 | tee -a /workspace/agent.log"
     try:
         res = sbx.commands.run(cmd, user="root", timeout=s.agent_run_timeout_seconds)
         out = (res.stdout or "") + (res.stderr or "")
