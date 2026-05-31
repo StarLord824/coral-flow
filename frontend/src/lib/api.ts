@@ -71,6 +71,11 @@ export const api = {
       body: JSON.stringify({ source_type, credentials, scope }),
     }),
 
+  deleteSource: (agentId: string, sourceType: string) =>
+    request<{ ok: true; sources: AgentSource[] }>(`/agents/${agentId}/sources/${sourceType}`, {
+      method: 'DELETE',
+    }),
+
   chat: (agentId: string, question: string, notify = true) =>
     request<{ agent_id: string; answer: string; message_id: string }>(
       `/agents/${agentId}/chat`,

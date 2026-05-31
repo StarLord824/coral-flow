@@ -1,7 +1,9 @@
 import React, { memo } from 'react'
 import { Handle, Position, type NodeProps } from '@xyflow/react'
+import { Trash2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
+import { useAgent } from '@/lib/agent'
 
 export type SourceNodeData = {
   label: string
@@ -85,6 +87,7 @@ const SOURCE_CONFIG = {
 function SourceNode({ data, selected }: NodeProps) {
   const nodeData = data as SourceNodeData
   const config = SOURCE_CONFIG[nodeData.sourceType] || SOURCE_CONFIG.github
+  const { disconnectSource } = useAgent()
 
   return (
     <div
@@ -111,21 +114,29 @@ function SourceNode({ data, selected }: NodeProps) {
             </p>
           </div>
         </div>
-
-        <Badge
-          variant={nodeData.status === 'connected' ? 'orange' : nodeData.status === 'connecting' ? 'warning' : 'outline'}
-          className="text-[10px] gap-1"
-        >
-          <span
-            className={cn(
-              'w-1.5 h-1.5 rounded-full',
-              nodeData.status === 'connected' && 'bg-orange-400 animate-pulse',
-              nodeData.status === 'connecting' && 'bg-amber-400 animate-pulse',
-              nodeData.status === 'disconnected' && 'bg-zinc-500'
-            )}
-          />
-          {nodeData.status}
-        </Badge>
+        <div className="flex items-center gap-2">
+          <button 
+            onClick={() => disconnectSource(nodeData.sourceType)}
+            className="text-white/30 hover:text-red-400 transition-colors p-1 rounded-md hover:bg-white/5"
+            title="Disconnect source"
+          >
+            <Trash2 className="w-3 h-3" />
+          </button>
+          <Badge
+            variant={nodeData.status === 'connected' ? 'orange' : nodeData.status === 'connecting' ? 'warning' : 'outline'}
+            className="text-[10px] gap-1"
+          >
+            <span
+              className={cn(
+                'w-1.5 h-1.5 rounded-full',
+                nodeData.status === 'connected' && 'bg-orange-400 animate-pulse',
+                nodeData.status === 'connecting' && 'bg-amber-400 animate-pulse',
+                nodeData.status === 'disconnected' && 'bg-zinc-500'
+              )}
+            />
+            {nodeData.status}
+          </Badge>
+        </div>
       </div>
 
       {/* Details */}

@@ -8,6 +8,7 @@ type AgentState = {
   error: string | null
   refresh: () => Promise<void>
   connectSource: (sourceType: string, credentials: Record<string, string>, scope?: string) => Promise<void>
+  disconnectSource: (sourceType: string) => Promise<void>
 }
 
 const AgentContext = createContext<AgentState | undefined>(undefined)
@@ -44,8 +45,17 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
     [agent],
   )
 
+  const disconnectSource = useCallback(
+    async (sourceType: string) => {
+      if (!agent) throw new Error('No agent loaded')
+      const { sources } = await api.deleteSource(agent.id, sourceType)
+      setSources(sources)
+    },
+    [agent],
+  )
+
   return (
-    <AgentContext.Provider value={{ agent, sources, loading, error, refresh, connectSource }}>
+    <AgentContext.Provider value={{ agent, sources, loading, error, refresh, connectSource, disconnectSource }}>
       {children}
     </AgentContext.Provider>
   )

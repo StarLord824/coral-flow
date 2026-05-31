@@ -37,6 +37,12 @@ const SOURCE_META: Record<string, { label: string; details: string[]; color: str
   sentry: { label: 'Sentry', details: ['errors', 'traces'], color: '#F55247' },
   slack: { label: 'Slack', details: ['post', 'notify'], color: '#4A154B' },
   linear: { label: 'Linear', details: ['issues', 'cycles'], color: '#5E6AD2' },
+  postgres: { label: 'Postgres', details: ['tables', 'queries'], color: '#336791' },
+  stripe: { label: 'Stripe', details: ['payments', 'events'], color: '#635BFF' },
+  notion: { label: 'Notion', details: ['pages', 'docs'], color: '#ffffff' },
+  jira: { label: 'Jira', details: ['tickets', 'sprints'], color: '#0052CC' },
+  desktop: { label: 'Desktop', details: ['files', 'apps'], color: '#888888' },
+  aws: { label: 'AWS', details: ['logs', 'services'], color: '#FF9900' },
 }
 
 // Build canvas nodes/edges from the agent's real sources.
@@ -194,11 +200,6 @@ function DashboardInner() {
               >
                 <Background variant={BackgroundVariant.Dots} gap={20} size={1} color="#ffffff08" />
                 <Controls className="!bottom-4 !left-4" showInteractive={false} />
-                <MiniMap
-                  className="!bottom-4 !right-4"
-                  nodeColor={n => (n.type === 'agentNode' ? '#f97316' : (n.data as SourceNodeData).status === 'connected' ? '#f97316' : '#3f3f46')}
-                  maskColor="rgba(0,0,0,0.6)"
-                />
                 <Panel position="top-right" className="m-3">
                   <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg glass text-[10px] text-muted-foreground">
                     <GitBranch className="w-3 h-3" />

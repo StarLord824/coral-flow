@@ -25,7 +25,7 @@ router = APIRouter(prefix="/agents", tags=["agents"])
 
 # Coral READ sources that connect via `coral source add`. Slack is the OUT action
 # (a bot token used by slack-notify.py), not a Coral source, so it's excluded here.
-CORAL_READ_SOURCES = {"github", "sentry", "linear", "datadog", "notion", "jira", "stripe"}
+CORAL_READ_SOURCES = {"github", "sentry", "linear", "datadog", "notion", "jira", "stripe", "postgres", "desktop", "aws", "confluence", "gitlab", "grafana", "clickup", "intercom", "launchdarkly", "incident_io", "posthog", "wandb", "openobserve", "statusgator", "cloudwatch_logs", "cloudwatch_metrics"}
 
 
 class InjectToken(BaseModel):
@@ -94,6 +94,16 @@ async def inject_token(agent_id: str, body: InjectToken, user: User = CurrentUse
     await run_in_threadpool(
         db.upsert_source, agent_id, body.source_type, body.credentials, body.scope
     )
+    sources = await run_in_threadpool(db.list_sources, agent_id)
+    return {"ok": True, "sources": sources}
+
+
+@router.delete("/{agent_id}/sources/{source_type}")
+async def remove_source(agent_id: str, source_type: str, user: User = CurrentUser) -> dict:
+    agent = await run_in_threadpool(db.get_agent_owned, user.id, agent_id)
+    if not agent:
+        raise HTTPException(404, "agent not found")
+    await run_in_threadpool(db.delete_source, agent_id, source_type)
     sources = await run_in_threadpool(db.list_sources, agent_id)
     return {"ok": True, "sources": sources}
 

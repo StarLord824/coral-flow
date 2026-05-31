@@ -19,12 +19,12 @@ const SOURCES: Source[] = [
   { id: 'sentry', label: 'Sentry', type: 'sentry', tags: ['errors', 'traces'], available: true, color: '#F55247' },
   { id: 'slack', label: 'Slack', type: 'slack', tags: ['channels', 'threads'], available: true, color: '#4A154B' },
   { id: 'linear', label: 'Linear', type: 'linear', tags: ['issues', 'cycles'], available: true, color: '#5E6AD2' },
-  { id: 'postgres', label: 'Postgres', type: 'postgres', tags: ['tables', 'queries'], available: false, color: '#336791' },
-  { id: 'stripe', label: 'Stripe', type: 'stripe', tags: ['payments', 'events'], available: false, color: '#635BFF' },
-  { id: 'notion', label: 'Notion', type: 'notion', tags: ['pages', 'docs'], available: false, color: '#ffffff' },
-  { id: 'jira', label: 'Jira', type: 'jira', tags: ['tickets', 'sprints'], available: false, color: '#0052CC' },
-  { id: 'desktop', label: 'Desktop', type: 'desktop', tags: ['files', 'apps'], available: false, color: '#888888' },
-  { id: 'aws', label: 'AWS', type: 'aws', tags: ['logs', 'services'], available: false, color: '#FF9900' },
+  { id: 'postgres', label: 'Postgres', type: 'postgres', tags: ['tables', 'queries'], available: true, color: '#336791' },
+  { id: 'stripe', label: 'Stripe', type: 'stripe', tags: ['payments', 'events'], available: true, color: '#635BFF' },
+  { id: 'notion', label: 'Notion', type: 'notion', tags: ['pages', 'docs'], available: true, color: '#ffffff' },
+  { id: 'jira', label: 'Jira', type: 'jira', tags: ['tickets', 'sprints'], available: true, color: '#0052CC' },
+  { id: 'desktop', label: 'Desktop', type: 'desktop', tags: ['files', 'apps'], available: true, color: '#888888' },
+  { id: 'aws', label: 'AWS', type: 'aws', tags: ['logs', 'services'], available: true, color: '#FF9900' },
 ]
 
 const SOURCE_ICONS: Record<string, React.ReactNode> = {

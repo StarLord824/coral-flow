@@ -104,6 +104,15 @@ def upsert_source(
         c.commit()
 
 
+def delete_source(agent_id: str, source_type: str) -> None:
+    with _conn() as c, c.cursor() as cur:
+        cur.execute(
+            "delete from agent_sources where agent_id = %s and source_type = %s",
+            (agent_id, source_type),
+        )
+        c.commit()
+
+
 def decrypted_tokens(agent_id: str) -> dict[str, dict[str, str]]:
     """All source credentials for an agent, decrypted. Returns {source_type: {env_var: value}}."""
     with _conn() as c, c.cursor() as cur:
