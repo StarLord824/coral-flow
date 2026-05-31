@@ -285,7 +285,7 @@ def _public_agent(agent: dict) -> dict:
     return {
         "id": str(agent["id"]),
         "name": agent["name"],
-        "model": agent["model"],
+        "model": get_settings().agent_model.split("/")[-1],
         "sandbox_id": agent["sandbox_id"],
         "sandbox_state": agent["sandbox_state"],
     }
