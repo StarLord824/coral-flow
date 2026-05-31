@@ -19,7 +19,45 @@ Rules:
 - To report findings, run: python3 /workspace/slack-notify.py "<concise summary>"
   (Coral is read-only and cannot post to Slack; this script is your only way to notify.)
 - Be concise. Confirm once the Slack message is sent.
+
+Evidence output:
+- After your final answer, emit a line in this exact format (no pretty-print, single line):
+  EVIDENCE_JSON:{"sources_queried":[...],"key_findings":[...],"sql_queries":[...]}
+- `sources_queried`: list of source names you queried (e.g. ["github","sentry"]).
+- `key_findings`: list of objects, each with a `type` field and relevant fields:
+    github_pr     → number, title, merged_at
+    sentry_issue  → id, title, events
+    linear_issue  → id, title, state
+    pagerduty_incident → id, title, status
+    datadog_alert → id, title, status
+- `sql_queries`: list of {source, table} objects for every query you ran.
+- The line must start with the literal prefix `EVIDENCE_JSON:` with no leading spaces.
+- Emit this line after the Slack notification confirmation, at the very end of your response.
 """
+
+
+import json
+import re
+
+
+def parse_evidence(output: str) -> dict | None:
+    """Extract and parse the EVIDENCE_JSON block from agent output.
+
+    Returns the parsed dict, or None if the line is absent or the JSON is invalid.
+    """
+    for line in output.splitlines():
+        if line.startswith("EVIDENCE_JSON:"):
+            raw = line[len("EVIDENCE_JSON:"):]
+            try:
+                return json.loads(raw)
+            except json.JSONDecodeError:
+                return None
+    return None
+
+
+def strip_evidence(output: str) -> str:
+    """Remove the EVIDENCE_JSON line from agent output so the chat response is clean."""
+    return re.sub(r"^EVIDENCE_JSON:.*$\n?", "", output, flags=re.MULTILINE)
 
 
 def build_investigation_prompt(user_question: str, notify: bool = True) -> str:

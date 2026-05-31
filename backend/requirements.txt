@@ -4,6 +4,8 @@ pydantic==2.10.4
 pydantic-settings==2.7.0
 e2b==1.0.5
 cryptography==44.0.0
-supabase==2.11.0
 python-multipart==0.0.20
 httpx==0.28.1
+psycopg[binary]==3.2.3
+python-dotenv==1.0.1
+sse-starlette==2.1.3
