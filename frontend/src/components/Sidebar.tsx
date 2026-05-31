@@ -60,8 +60,13 @@ type SidebarProps = {
   onAddSource: (sourceType: string) => void
 }
 
+import { useAuth } from '@/lib/auth'
+
 export default function Sidebar({ onAddSource }: SidebarProps) {
   const [search, setSearch] = React.useState('')
+  const { user } = useAuth()
+  const initial = (user?.email ?? 'U')[0].toUpperCase()
+  const workspaceName = user?.email ? `${user.email.split('@')[0]}'s workspace` : 'My Workspace'
 
   const available = SOURCES.filter(s => s.available && s.label.toLowerCase().includes(search.toLowerCase()))
   const comingSoon = SOURCES.filter(s => !s.available && s.label.toLowerCase().includes(search.toLowerCase()))
@@ -177,10 +182,10 @@ export default function Sidebar({ onAddSource }: SidebarProps) {
         {/* Footer */}
         <div className="border-t border-border px-3 py-2 flex items-center gap-2">
           <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-[9px] text-white font-bold">
-            L
+            {initial}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-medium text-foreground truncate">luca's workspace</p>
+            <p className="text-xs font-medium text-foreground truncate">{workspaceName}</p>
           </div>
           <ChevronRight className="w-3 h-3 text-muted-foreground" />
         </div>

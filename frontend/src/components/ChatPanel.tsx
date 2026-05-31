@@ -194,10 +194,14 @@ function MessageContent({ text }: { text: string }) {
 
 // ─── Main ChatPanel ──────────────────────────────────────────────────────────
 
+import { useAuth } from '@/lib/auth'
+
 const nowTime = () => new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 
 export default function ChatPanel() {
   const { agent, sources } = useAgent()
+  const { user } = useAuth()
+  const initial = (user?.email ?? 'U')[0].toUpperCase()
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -312,7 +316,7 @@ export default function ChatPanel() {
             <RefreshCw className="w-3 h-3" />
           </Button>
           <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-[9px] text-white font-bold">
-            L
+            {initial}
           </div>
         </div>
       </div>
@@ -351,7 +355,7 @@ export default function ChatPanel() {
                   </div>
                 </div>
                 <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-[9px] text-white font-bold flex-shrink-0 mb-0.5">
-                  L
+                  {initial}
                 </div>
               </div>
             )}
