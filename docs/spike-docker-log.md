@@ -178,6 +178,33 @@ something else internally (bundled browser/telemetry), NOT agent auth.
 | `ANTIGRAVITY_API_KEY` (valid AIzaSy, alone) | string absent | ❌ OAuth |
 | `GOOGLE_APPLICATION_CREDENTIALS` (valid SA) | string present | ❌ OAuth |
 
+### FULL LOOP SUCCESS — opencode + openrouter/owl-alpha (2026-05-31)
+
+After free-tier models (Gemini free = quota, OpenRouter kimi:free = congestion) all
+stalled the multi-step loop, **`openrouter/owl-alpha`** completed it cleanly:
+
+```
+> build · owl-alpha
+coral_sql SELECT login... -> StarLord824 (54 repos)
+coral_sql ...user_repos WHERE owner=... -> empty, model self-corrected
+coral_sql ...user_repos ORDER BY updated_at DESC LIMIT 3 -> 3 repos
+$ python3 /workspace/slack-notify.py "..." -> Posted to #incidents-alerts (ts=...)
+exit 0
+```
+
+Coral data-in -> 4-query agentic investigation (with self-correction) -> Slack
+action-out, in one run, no stall. **owl-alpha is the chosen agent model.**
+
+GOTCHA: opencode rejects unlisted models ("Model not found: openrouter/owl-alpha").
+owl-alpha is a stealth model not in opencode's catalog, so it MUST be registered in
+opencode.json:
+```json
+"provider": { "openrouter": { "models": { "owl-alpha": { "name": "Owl Alpha" } } } }
+```
+(Privacy note: owl-alpha logs prompts/completions — fine for the hackathon demo.)
+
+---
+
 **agy 1.0.3 has NO headless auth path. It is hardwired to interactive browser OAuth
 against the consumer Antigravity backend. DROPPED as the agent runner — permanently.**
 

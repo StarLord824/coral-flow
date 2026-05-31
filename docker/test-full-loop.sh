@@ -22,6 +22,7 @@ cat > /root/.config/opencode/opencode.json << 'EOF'
 {
   "$schema": "https://opencode.ai/config.json",
   "permission": { "bash": "allow", "edit": "allow", "webfetch": "allow" },
+  "provider": { "openrouter": { "models": { "owl-alpha": { "name": "Owl Alpha" } } } },
   "mcp": { "coral": { "type": "local", "command": ["coral","mcp-stdio"], "enabled": true } }
 }
 EOF
