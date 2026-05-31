@@ -23,3 +23,7 @@ app.include_router(agents_router)
 @app.get("/health")
 def health() -> dict:
     return {"status": "ok", "version": __version__}
+
+@app.get("/api/health")
+async def health_check():
+    return {"status": "healthy", "message": "Orchestrator is awake"}
