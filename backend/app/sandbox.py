@@ -187,6 +187,10 @@ def run_agent(sbx: Sandbox, prompt: str) -> str:
         raise AgentTimeout(
             f"Agent run exceeded {s.agent_run_timeout_seconds}s (model may be slow/throttled)."
         ) from e
+    except Exception as e:
+        # e2b SDK 1.0.5 crashes when parsing streaming errors (e.g. 502 from API).
+        # We catch it so we don't 500 the whole SSE connection.
+        raise QuotaError(f"Agent run failed (API error or crash): {str(e)}") from e
 
     if _is_quota(out):
         raise QuotaError("Model endpoint is throttled or out of quota. Try again shortly.")
