@@ -92,7 +92,7 @@ async def inject_token(agent_id: str, body: InjectToken, user: User = CurrentUse
     # Encrypt the full credentials dict as a JSON blob so multi-field sources
     # (e.g. Sentry needs token + org, Datadog needs api_key + app_key) are stored together.
     await run_in_threadpool(
-        db.upsert_source, agent_id, body.source_type, json.dumps(body.credentials), body.scope
+        db.upsert_source, agent_id, body.source_type, body.credentials, body.scope
     )
     sources = await run_in_threadpool(db.list_sources, agent_id)
     return {"ok": True, "sources": sources}
